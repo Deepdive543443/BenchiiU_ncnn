@@ -38,20 +38,11 @@ LDFLAGS	=	-g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $*.map)
 
 LIBS	:= -lwut
 
-
-
-# ----------------ncnn--------------------
-# NCNN_DIR 			:= ../../cpp_libs/ncnn_wiiu# <-Switch to your own path to build yours
-# NCNN_INCLUDE_DIR 	:= ../$(NCNN_DIR)/include/ncnn
-# LIBS += -lncnn
-
-
 #-------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level
 # containing include and lib
 #-------------------------------------------------------------------------------
-LIBDIRS				:= $(PORTLIBS) $(WUT_ROOT)#$(NCNN_DIR)
-# INCLUDE_DIRS		:= $(NCNN_INCLUDE_DIR)
+LIBDIRS	:= $(PORTLIBS) $(WUT_ROOT)
 
 
 #-------------------------------------------------------------------------------
@@ -94,10 +85,8 @@ export OFILES 	:=	$(OFILES_BIN) $(OFILES_SRC)
 export HFILES_BIN	:=	$(addsuffix .h,$(subst .,_,$(BINFILES)))
 
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
-					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-					# $(foreach dir,$(LIB_DIRS),-I$(dir)/include) \
-					# $(foreach dir,$(INCLUDE_DIRS),-I$(dir))
-					-I$(CURDIR)/$(BUILD)
+			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+			-I$(CURDIR)/$(BUILD)
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
