@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     WHBLogPrintf("Press HOME to exit");
 
 
-    benchmark("models/nanodet_m.param", ncnn::Mat(320, 320, 3), opt);
+    // benchmark("models/nanodet_m.param", ncnn::Mat(320, 320, 3), opt);
     // benchmark(("models/nanodet_m.param").c_str(), ncnn::Mat(320, 320, 3), opt);
 
     while(WHBProcIsRunning()) 
