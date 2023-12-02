@@ -4,9 +4,9 @@ project(Benchii_ncnn CXX)
 add_executable(Benchii_ncnn
    main.cpp)
 
-# set(ncnn_DIR ../../cpp_libs/ncnn_wiiu/lib/cmake/ncnn CACHE PATH "Directory that contains ncnnConfig.cmake")
-# find_package(ncnn REQUIRED)
-# target_link_libraries(Benchii_ncnn ncnn)
+set(ncnn_DIR ../../../cpp_libs/ncnn_wiiu/lib/cmake/ncnn CACHE PATH "Directory that contains ncnnConfig.cmake")
+find_package(ncnn REQUIRED)
+target_link_libraries(Benchii_ncnn ncnn)
 
 wut_create_rpx(Benchii_ncnn)
 
