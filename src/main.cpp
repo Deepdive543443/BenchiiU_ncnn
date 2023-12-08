@@ -18,8 +18,8 @@
 #include "cpu.h" //ncnn
 
 
-static int g_warmup_loop_count = 8;
-static int g_loop_count = 4;
+static int g_warmup_loop_count = 1;
+static int g_loop_count = 8;
 // static bool g_enable_cooling_down = true;
 
 static ncnn::UnlockedPoolAllocator g_blob_pool_allocator;
@@ -69,7 +69,6 @@ int main(int argc, char **argv)
     WHBLogConsoleInit();
 
     // Print the opening msg
-    WHBLogPrintf("Hello 27ovo!\n\n");
     WHBLogPrintf("");
     WHBLogPrintf("");
 
@@ -77,13 +76,15 @@ int main(int argc, char **argv)
     WHBLogPrintf("                     CPU count(BIG):  %d", ncnn::get_big_cpu_count());
     WHBLogPrintf("                     CPU count(SML):  %d", ncnn::get_little_cpu_count());
     WHBLogPrintf("                     CPU powersave:   %d", ncnn::get_cpu_powersave());
-
+    WHBLogConsoleDraw();
+    OSSleepTicks(OSMillisecondsToTicks(1000));
 
     WHBLogPrintf("");
     WHBLogPrintf("");
     WHBLogPrintf("");
     WHBLogPrintf("Hello, NCNN bench demo!");
-    WHBLogPrintf("Press HOME to exit");
+    WHBLogConsoleDraw();
+    OSSleepTicks(OSMillisecondsToTicks(1000));
 
     g_blob_pool_allocator.clear();
     g_workspace_pool_allocator.clear();
@@ -92,7 +93,7 @@ int main(int argc, char **argv)
     net.opt = opt;
 
     // Load weight
-    net.load_param("fs:/vol/external01/models/FastestDet.param");
+    net.load_param("fs:/vol/external01/models/mobilenet_int8.param");
     DataReaderFromEmpty dr;
     net.load_model(dr);
 
@@ -105,7 +106,8 @@ int main(int argc, char **argv)
     in.fill(0.01f);
 
     WHBLogPrintf("Input shape:[H:%d, W:%d, C:%d]\n", in.h, in.w, in.c);
-    WHBLogPrintf("Warm up Fastestdet...");
+    WHBLogPrintf("Warm up...");
+    WHBLogConsoleDraw();
     for (int i = 0; i < g_warmup_loop_count; i++)
     {
         ncnn::Extractor ex = net.create_extractor();
@@ -129,6 +131,7 @@ int main(int argc, char **argv)
     double time_avg = 0;
 
     WHBLogPrintf("Benchmarking...");
+    WHBLogConsoleDraw();
 
     int out_w;
     int out_h;
@@ -163,6 +166,7 @@ int main(int argc, char **argv)
         time_max = std::max(time_max, time);
         time_avg += time;
         WHBLogPrintf("[%2d/%2d] Time:%7.2f\n",i + 1, g_loop_count, time);
+        WHBLogConsoleDraw();
     }
 
     WHBLogPrintf("Output shape:[H:%d, W:%d, C:%d]\n\n", out_h, out_w, out_c);
