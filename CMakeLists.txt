@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 project(Benchii_ncnn CXX)
 
-add_executable(Benchii_ncnn
-   main.cpp)
+add_executable(Benchii_ncnn src/main.cpp)
 
-set(ncnn_DIR ../../../cpp_libs/ncnn_wiiu/lib/cmake/ncnn CACHE PATH "Directory that contains ncnnConfig.cmake")
+set(ncnn_DIR ../../cpp_libs/ncnn_wiiu/lib/cmake/ncnn CACHE PATH "Directory that contains ncnnConfig.cmake")
 find_package(ncnn REQUIRED)
 target_link_libraries(Benchii_ncnn ncnn)
 
